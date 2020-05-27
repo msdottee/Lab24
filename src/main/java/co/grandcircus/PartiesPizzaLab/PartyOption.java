@@ -1,9 +1,12 @@
 package co.grandcircus.PartiesPizzaLab;
 
 import javax.persistence.Entity;
+
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +19,9 @@ public class PartyOption {
 	private String name;
 	private String description;
 	private int votes;
-	
+	@ManyToOne
+	private Party party;
+
 	public Long getId() {
 		return id;
 	}
@@ -40,6 +45,13 @@ public class PartyOption {
 	}
 	public void setVotes(int votes) {
 		this.votes = 0;
+	}
+	
+	public Party getParty() {
+		return party;
+	}
+	public void setParty(Party party) {
+		this.party = party;
 	}
 	
 	@Override

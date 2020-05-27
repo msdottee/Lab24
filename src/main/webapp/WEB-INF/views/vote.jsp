@@ -14,7 +14,8 @@
 </head>
 <body>
 	<jsp:include page='navbar.jsp'></jsp:include>
-	<h1>Pizza Options</h1>
+	<h1>Pizza Options for Party:</h1>
+	<h2><c:out value="${party.name}"/></h2>
 	<table class="table">
 		<thead>
 			<tr>
@@ -29,7 +30,7 @@
 					<td><c:out value="${option.name}" /></td>
 					<td><c:out value="${option.description}" /></td>
 					<td><c:out value="${option.votes}" /></td>
-					<td><a href="/addvote?id=${option.id}">Vote</a></td>
+					<td><a href="/addvote?id=${option.id}&partyId=${party.id}">Vote</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -40,6 +41,7 @@
 	<input type="text" name="name"/>
 	<label>Description:</label>
 	<input type="text" name="description"/>
+	<input type="hidden" name="party" value="${party.id}"/>
 	<input type="submit"/>
 	</form>
 </body>

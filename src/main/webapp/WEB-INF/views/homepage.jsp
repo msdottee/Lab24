@@ -18,7 +18,7 @@
 	<h1>Parties</h1>
 	<ul>
 		<c:forEach var="party" items="${parties}">
-			<li><c:out value="${party.name} - ${party.date}" /></li>
+			<li><c:out value="${party.name} - ${party.date}" /><a href="/vote?id=${party.id}"> Go Vote!</a><a href="/review?id=${party.id}"> Review</a></li>
 		</c:forEach>
 	</ul>
 </body>

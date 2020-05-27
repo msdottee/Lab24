@@ -15,6 +15,8 @@ public interface PartyOptionRepository extends JpaRepository<PartyOption, Long> 
 	@Transactional //needed this because JPA requires updates to take place in a transaction
 	public void addVote(Long id);
 
-	@Query(value = "SELECT p FROM PartyOption p WHERE p.votes > 0 ORDER BY p.votes DESC")
-	public Collection<PartyOption> listPopularPartyOptions(); 
+	@Query(value = "SELECT p FROM PartyOption p WHERE p.votes > 0 AND p.party.id = :id ORDER BY p.votes DESC")
+	public Collection<PartyOption> listPopularPartyOptionsAndFindById(Long id); 
+	
+	public Collection<PartyOption> findByPartyId(Long id);
 }

@@ -1,6 +1,5 @@
 package co.grandcircus.PartiesPizzaLab;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,29 +28,30 @@ public class PizzaPartiesController {
 	}
 	
 	@RequestMapping("/vote")
-	public String votePage(Model model) {
-		List<PartyOption> partyOptions = partyOptionRepository.findAll();
-		model.addAttribute("partyOptions", partyOptions);
+	public String listVotePage(@RequestParam Long id, Model model) {
+		model.addAttribute("partyOptions", partyOptionRepository.findByPartyId(id));
+		model.addAttribute("party", partyRepository.findById(id).orElse(null));
 		return "vote";
 	}
 	
 	@RequestMapping("/addvote")
-	public String addVote(@RequestParam Long id) {
+	public String addVote(@RequestParam Long id, @RequestParam Long partyId) {
 		partyOptionRepository.addVote(id);	
-		return "redirect:/vote";
+		return "redirect:/vote?id=" + partyId;
 	}
 	
 	@PostMapping("/addOption") 
-	public String addOption(PartyOption partyOption) {
+	public String addOption(@RequestParam Long party, PartyOption partyOption) {
+		Party retrievedParty = partyRepository.findById(party).orElse(null);
+		partyOption.setParty(retrievedParty);
 		partyOptionRepository.save(partyOption);
 		
-		return "redirect:/vote";
+		return "redirect:/vote?id=" + party;
 	}
 	
 	@GetMapping("/review")
-	public String listPopularPartyOptions(Model model) {
-		Collection<PartyOption> partyOptions = partyOptionRepository.listPopularPartyOptions();
-		model.addAttribute("partyOptions", partyOptions);
-		return "/review";
+	public String listPopularPartyOptions(@RequestParam Long id, Model model) {
+		model.addAttribute("partyOptions", partyOptionRepository.listPopularPartyOptionsAndFindById(id));
+		return "review";
 	}
 }
